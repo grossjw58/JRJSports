@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page Title</title>
+	<link href="MainStyle.css" rel="stylesheet" type="text/css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="menus.js"></script>
+	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
+	<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+	<div id='container'>
+		<div id='header'>
+			<span id='pageTitle'>Amphibian Biodiversity Data Portal (ABDP)</span>
+		</div>
+		<div id='menu'>
+			<button type="button" id='slideOut' onClick = "TogglesidePanel('out');">Slideout!</button>
+			<button onclick=" StateButtonOnClick()" class="dropbtn">Select A State</button>
+				<select id="myDropdown" class="dropdown-content" onchange="StateSubset(map1,this.value);"><!--onchange="StateSubset(map1,this.value);"-->
+					<option value="all">All</a>
+					<option value="alabama">Alabama</a>
+					<option value="arizona">Arizona</a> 
+					<option value="arkansas">Arkansas</a>
+					<option value="california">California</a>
+					<option value="colorado">Colorado</a>
+					<option value="connecticut">Connecticut</a>
+					<option value="delaware">Delaware</a>
+					<option value="florida">Florida</a>
+					<option value="georgia">Georgia</a>
+					<option value="idaho">Idaho</a>
+					<option value="illinois">Illinois</a>
+					<option value="indiana">Indiana</a>
+					<option value="iowa">Iowa</a>
+					<option value="kansas">Kansas</a>
+					<option value="kentucky">Kentucky</a>
+					<option value="louisiana">Louisiana</a>
+					<option value="maine">Maine</a>
+					<option value="maryland">Maryland</a>
+					<option value="massachusetts">Massachusetts</a>
+					<option value="michigan">Michigan</a>
+					<option value="minnesota">Minnesota</a>
+					<option value="mississippi">Mississippi</a>
+					<option value="missouri">Missouri</a>
+					<option value="montana">Montana</a>
+					<option value="nebraska">Nebraska</a>
+					<option value="nevada">Nevada</a>
+					<option value="new hampshire">New Hampshire</a>
+					<option value="new jersey">New Jersey</a>
+					<option value="new mexico">New Mexico</a>
+					<option value="new york">New York</a>
+					<option value="north carolina">North Carolina</a>
+					<option value="ohio">Ohio</a>
+					<option value="oklahoma">Oklahoma</a>
+					<option value="oregon">Oregon</a>
+					<option value="pennsylvania">Pennsylvania</a>
+					<option value="south carolina">South Carolina</a>
+					<option value="south dakota">South Dakota</a>
+					<option value="tennessee">Tennessee</a>
+					<option value="texas">Texas</a>
+					<option value="utah">Utah</a>
+					<option value="vermont">Vermont</a>
+					<option value="virginia">Virginia</a>
+					<option value="washington">Washington</a>
+					<option value="washington, d.c.">Washington, D.C.</a>
+					<option value="west virginia">West Virginia</a>
+					<option value="wisconsin">Wisconsin</a>
+					<option value="wyoming">Wyoming</a>
+				</select>
+			<button onclick=" SpeciesButtonOnClick()" class="dropbtn">Select A Species</button><!--class="dropdown-content"-->
+				<section id="navbar" class="dropdown-content"><!--class="dropdown-content"-->
+					<ul>
+						<li><button class = "uiButton">Family</button>
+							<ul>
+								<li><button class = "uiButton" onclick="SubsetAll(map1,'Family','bufonidae','==');">Bufonidae</button>
+									<ul>
+										<li><button class = "uiButton" onclick="SubsetAll(map1,'Genus','bufo','==');">Bufo</button>
+											<ul>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','bufo aurarius','==');">Bufo aurarius</button></li>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','bufo bufo','==');">Bufo bufo</button></li>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','bufo compacticus','==');">Bufo compacticus</button></li>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','bufo proteus','==');">Bufo proteus</button></li>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','bufo tuberculatus','==');">Bufo tuberculatus</button></li>			
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li><button class = "uiButton" onclick="SubsetAll(map1,'Family','hylidae','==');">Hylidae</button>
+									<ul>
+										<li><button class = "uiButton" onclick="SubsetAll(map1,'Genus','hyla','==');">Hyla</button>
+											<ul>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','hyla aurarius','==');">Hyla aurarius</button></li>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','hyla arenicolor','==');">Hyla arenicolor</button></li>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','hyla avivoca','==');">Hyla avivoca</button></li>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','hyla chrysoscelis','==');">Hyla chrysoscelis</button></li>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','hyla cinerea','==');">Hyla cinerea</button></li>	
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','hyla eximia','==');">Hyla eximia</button></li>	
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','hyla femoralis','==');">Hyla femoralis</button></li>	
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','hyla gratiosa','==');">Hyla gratiosa</button></li>	
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','hyla squirella','==');">Hyla squirella</button></li>	
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','hyla versicolor','==');">Hyla versicolor</button></li>	
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','hyla wrightorum','==');">Hyla wrightorum</button></li>	
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li><button class = "uiButton" onclick="SubsetAll(map1,'Family','ranidae','==');">Ranidae</button>
+									<ul>
+										<li><button class = "uiButton" onclick="SubsetAll(map1,'Genus','rana','==');">Rana</button>
+											<ul>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','rana aurora','==');">Rana aurora</button></li>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','rana boylii','==');">Rana boylii</button></li>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','rana cascadae','==');">Rana cascadae</button></li>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','rana catesbeina','==');">Rana catesbeina</button></li>
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','rana draytonii','==');">Rana draytonii</button></li>	
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','rana kauffeldi','==');">Rana kauffeldi</button></li>	
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','rana luteiventris','==');">Rana luteiventris</button></li>	
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','rana muscosa','==');">Rana muscosa</button></li>	
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','rana pretiosa','==');">Rana pretiosa</button></li>	
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','rana sierrae','==');">Rana sierrae</button></li>	
+													<li><button class = "uiButton" onclick="SubsetAll(map1,'Species','rana stenocephala','==');">Rana stenocephala</button></li>	
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+		</div>
+		<div id='sidePanel'>
+			<div id='sideMap'></div>
+		</div>
+		<div id='mainMap'>
+		</div>
+		<div id='footer'>
+			<span id='zoom'></span>
+			<span id='location'></span>
+		</div>
+	</div>
+	<script>
+		//function to slide the panel
+		function TogglesidePanel(_direction){
+			if(_direction=="in"){
+				$("#mainMap").animate({width:"700"},600)
+				$("#sidePanel").animate({width:"300"},600)
+			}else{
+				$("#sidePanel").animate({width:"0"},600)
+				$("#mainMap").animate({width:"1000"},600)
+			}
+		};
+		//deals with all the mapbox stuff
+		//mapbox token
+		mapboxgl.accessToken = 'pk.eyJ1IjoiZ3Jvc3MxanciLCJhIjoiY2pkeXlhYjNxNGZjbTJ3cXB2ODg1OGJiYiJ9.KJO8FL7aEC-9SKfqGUdbjQ';
+		var speciesDataFile = "file://K:/Teams/GISCenter/Gross/EES_PhD/GEO600/Geo600Lab3/Frogger.geojson";
+		var statesDataFile = "file://K:/Teams/GISCenter/Gross/EES_PhD/GEO600/Geo600Lab3/stateOutlines.geojson";
+		//map 1 or the "main map"
+		var map1 = new mapboxgl.Map({
+			container: 'mainMap',
+			style: 'mapbox://styles/mapbox/satellite-v9',
+			zoom: 3.5,
+			center: [-98.5795,35.8283]
+		});
+		//show mouse location in lat and long for map1
+		map1.on('mousemove', function (e) {
+			var location = JSON.stringify(e.lngLat);
+			var locSplit = location.split(":");
+			var lng = locSplit[1].split(",")[0];
+			var lat = locSplit[2].split("}")[0];
+			document.getElementById("location").innerHTML="Latitude: " + parseFloat(lat).toFixed(3) + " Longitude: " +parseFloat(lng).toFixed(3);
+		});
+		map1.on('zoom',function(){
+			document.getElementById("zoom").innerHTML="Zoom"+parseFloat(map1.getZoom()).toFixed(1); 
+		});
+		//add navigation control for map 1			
+		map1.addControl(new mapboxgl.NavigationControl());
+		//add a scale bar for map 1
+		map1.addControl(new mapboxgl.ScaleControl({position: 'bottom-left'}));
+		//adds layers when the map loads
+		map1.on('load',function(){
+			//add a scale bar for map 1
+			//sets the datasource
+			map1.addSource('amphibians',{
+				type: 'geojson',
+				data: speciesDataFile
+			});
+			map1.addSource('stateBoundries',{
+				type: 'geojson',
+				data: statesDataFile
+			});
+			map1.addLayer({
+				id: 'states',
+				type: 'line',
+				source: 'stateBoundries',
+				paint: {
+					'line-color': 'black'
+				}
+			});
+			//adds a heat map when zoomed out
+			map1.addLayer({
+				id: 'amphibians-heat',
+				type: 'heatmap',
+				source: 'amphibians',
+				maxzoom: 9,
+				minzoom: 3,
+				paint:{
+					// increase intensity as zoom level increases
+					'heatmap-intensity': {
+						stops: [
+							[6, 1],
+							[15, 3]
+						]
+					},
+					// assign color values be applied to points depending on their density
+					'heatmap-color': [
+						'interpolate',
+						['linear'],
+						['heatmap-density'],
+						0, 'rgba(255,255,204,0)',
+						0.2, 'rgb(254,229,217)',
+						0.4, 'rgb(252,174,145)',
+						0.6, 'rgb(251,106,74)',
+						0.8, 'rgb(165,15,21)'
+					],
+					// increase radius as zoom increases
+					'heatmap-radius': {
+						stops: [
+							[6, 15],
+							[15, 20]
+						]
+					},
+					// decrease opacity to transition into the circle layer
+					'heatmap-opacity': {
+						default: 1,
+						stops: [
+							[8, 1],
+							[9, 0]
+						]
+					},
+				} 
+			});
+			//adds the points when zoomed in 
+			map1.addLayer({
+				id: 'amphibians-point',
+				type: 'circle',
+				source: 'amphibians',
+				minzoom: 8,
+				maxzoom: 22,
+				paint: {
+					//Make the circles larger as the user zooms
+					'circle-radius': {
+						base: 5,
+						stops: [
+							[8, 12], 
+							[22, 180]
+						]
+					},
+					//sets the circle based on the genus 
+					'circle-color': [
+						'match',
+						['get','Genus'],
+						'bufo','#d95f02',
+						'rana','#7570b3',
+						'hyla','#1b9e77',
+						/*other*/'#ccc'
+					
+					],
+					'circle-stroke-color': 'white',
+					'circle-stroke-width': 1,
+					'circle-opacity': {
+						default: 1,
+						stops: [
+							[8, 0],
+							[9, 1]
+						]
+					},
+				}
+			});
+			//call the legend function
+			//Legend(map1,map1.getZoom(),heatmapCutoff);
+		});
+		//generates the popup window
+		map1.on('click', 'amphibians-point', function(e) {
+				new mapboxgl.Popup()
+				.setLngLat(e.features[0].geometry.coordinates)
+				.setHTML('<b>Species:</b> ' + e.features[0].properties.Species)
+				.addTo(map1);
+				TogglesidePanel("in");
+				map2.setFilter('species-point',['==','Species',e.features[0].properties.Species]);
+				map2.setFilter('species-point',['==','Species',e.features[0].properties.Species]);
+		});
+		//map2 or the side map
+		var map2 = new mapboxgl.Map({
+			container: 'sideMap',
+			style: 'mapbox://styles/mapbox/satellite-v9',
+			zoom: 1.5,
+			center: [-86.5795,40.8283]
+		});
+		//disable controls
+		map2.scrollZoom.disable();
+		map2.dragPan.disable();
+		map2.on('load',function(){
+			map2.addSource('species',{
+				type: 'geojson',
+				data: speciesDataFile
+			});
+			map2.addSource('stateBoundries',{
+				type: 'geojson',
+				data: statesDataFile
+			});
+			map2.addLayer({
+				id: 'states',
+				type: 'line',
+				source: 'stateBoundries',
+				paint: {
+					'line-color': 'black'
+				}
+			});
+			map2.addLayer({
+				id: 'species-point',
+				type: 'circle',
+				source: 'species',
+				paint: {
+					'circle-color': 'blue',
+					'circle-stroke-color': 'white',
+					'circle-stroke-width': 1,
+				}
+			});
+		});
+	</script>
+</body>
+</html>
