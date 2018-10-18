@@ -4,8 +4,8 @@
 	<title>Page Title</title>
 	<link href="MainStyle.css" rel="stylesheet" type="text/css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
-	<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 <body>
 	<div id='container'>
@@ -27,12 +27,939 @@
 		</div>
 	</div>
 	<script>
+			type: 'FeatureCollection',
+			features: [{
+				type: 'Feature',
+				geometry: {
+				  type: 'Point',
+				  coordinates: [-77.032, 38.913]
+				},
+				properties: {
+					title: 'Mapbox',
+					description: 'Washington, D.C.',
+					image:'https://s3.amazonaws.com/freebiesupply/large/2x/los-angeles-rams-logo-transparent.png'
+				}
+			},
+			{
+				type: 'Feature',
+				geometry: {
+				  type: 'Point',
+				  coordinates: [-122.414, 37.776]
+				},
+				properties: {
+				  title: 'Mapbox',
+				  description: 'San Francisco, California',
+				  image:' https://s3.amazonaws.com/freebiesupply/large/2x/pittsburgh-steelers-logo-transparent.png'
+				}
+			}]
+		};
+		var Teams = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 0,
+        "City": "Detroit",
+        "TeamName": "Lions",
+        "Stadium": "Ford Field",
+        "Web": "http://www.detroitlions.com/",
+        "Stadium_Capacity": 65000,
+        "Established": 1930,
+        "Record": "9-7",
+        "Conference": "NFC",
+        "Division": "NFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/detroit-lions-logo-transparent.png",
+        "X": -83.1936,
+        "Y": 42.39804,
+        "coordinates": "(-83.1936,42.39804)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.1936,
+          42.39804
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 1,
+        "City": "Chicago",
+        "TeamName": "Bears",
+        "Stadium": "Soldier Field",
+        "Web": "http://www.chicagobears.com/",
+        "Stadium_Capacity": 61500,
+        "Established": 1920,
+        "Record": "5-11",
+        "Conference": "NFC",
+        "Division": "NFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/chicago-bears-logo-transparent.png",
+        "X": -87.6882,
+        "Y": 41.83928,
+        "coordinates": "(-87.6882,41.83928)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6882,
+          41.83928
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 2,
+        "City": "Cleveland",
+        "TeamName": "Browns",
+        "Stadium": "FirstEnergy Stadium",
+        "Web": "http://www.clevelandbrowns.com/",
+        "Stadium_Capacity": 67895,
+        "Established": 1944,
+        "Record": "0-16",
+        "Conference": "AFC",
+        "Division": "AFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/cleveland-browns-logo-transparent.png",
+        "X": -81.6805,
+        "Y": 41.47658,
+        "coordinates": "(-81.6805,41.47658)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.6805,
+          41.47658
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 3,
+        "City": "Pittsburgh",
+        "TeamName": "Steelers",
+        "Stadium": "Heinz Field",
+        "Web": "http://www.steelers.com/",
+        "Stadium_Capacity": 69690,
+        "Established": 1933,
+        "Record": "13-3",
+        "Conference": "AFC",
+        "Division": "AFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/pittsburgh-steelers-logo-transparent.png",
+        "X": -79.9763,
+        "Y": 40.43949,
+        "coordinates": "(-79.9763,40.43949)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.9763,
+          40.43949
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 4,
+        "City": "Indianapolis",
+        "TeamName": "Colts",
+        "Stadium": "Lucas Oil Stadium",
+        "Web": "http://www.colts.com/",
+        "Stadium_Capacity": 67000,
+        "Established": 1953,
+        "Record": "4-12",
+        "Conference": "AFC",
+        "Division": "AFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/indianapolis-colts-logo-transparent.png",
+        "X": -86.1464,
+        "Y": 39.77725,
+        "coordinates": "(-86.1464,39.77725)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.1464,
+          39.77725
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 5,
+        "City": "Cincinnati",
+        "TeamName": "Bengals",
+        "Stadium": "Paul Brown Stadium",
+        "Web": "http://www.bengals.com/",
+        "Stadium_Capacity": 65515,
+        "Established": 1967,
+        "Record": "7-9",
+        "Conference": "AFC ",
+        "Division": "AFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/cincinnati-bengals-logo-transparent.png",
+        "X": -84.5405,
+        "Y": 39.15568,
+        "coordinates": "(-84.5405,39.15568)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -84.5405,
+          39.15568
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 6,
+        "City": "GreenBay",
+        "TeamName": "Packers",
+        "Stadium": "Lambeau Field",
+        "Web": "http://www.packers.com/",
+        "Stadium_Capacity": 81441,
+        "Established": 1919,
+        "Record": "7-9",
+        "Conference": "NFC",
+        "Division": "NFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/green-bay-packers-logo-transparent.png",
+        "X": -87.9943,
+        "Y": 44.51409,
+        "coordinates": "(-87.9943,44.51409)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.9943,
+          44.51409
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 7,
+        "City": "Minnesota",
+        "TeamName": "Vikings",
+        "Stadium": "U.S. Bank Stadium",
+        "Web": "http://www.vikings.com/",
+        "Stadium_Capacity": 66655,
+        "Established": 1960,
+        "Record": "13-3",
+        "Conference": "NFC",
+        "Division": "NFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/minnesota-vikings-logo-transparent.png",
+        "X": -93.2678,
+        "Y": 44.96359,
+        "coordinates": "(-93.2678,44.96359)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -93.2678,
+          44.96359
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 8,
+        "City": "Kansas City",
+        "TeamName": "Chiefs",
+        "Stadium": "Arrowhead Stadium",
+        "Web": "http://www.chiefs.com/",
+        "Stadium_Capacity": 76416,
+        "Established": 1959,
+        "Record": "10-6",
+        "Conference": "AFC",
+        "Division": "AFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/kansas-city-chiefs-logo-transparent.png",
+        "X": -94.5757,
+        "Y": 38.98465,
+        "coordinates": "(-94.5757,38.98465)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -94.5757,
+          38.98465
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 9,
+        "City": "Philadalphia",
+        "TeamName": "Eagles",
+        "Stadium": "Lincoln Financial Field",
+        "Web": "http://www.philadelphiaeagles.com/",
+        "Stadium_Capacity": 69176,
+        "Established": 1933,
+        "Record": "13-3",
+        "Conference": "NFC",
+        "Division": "NFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/philadelphia-eagles-logo-transparent.png",
+        "X": -75.1339,
+        "Y": 40.00773,
+        "coordinates": "(-75.1339,40.00773)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.1339,
+          40.00773
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 10,
+        "City": "Buffalo",
+        "TeamName": "Bills",
+        "Stadium": "New Area Field",
+        "Web": "http://www.buffalobills.com/",
+        "Stadium_Capacity": 71608,
+        "Established": 1959,
+        "Record": "9-7",
+        "Conference": "AFC",
+        "Division": "AFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/buffalo-bills-logo-transparent.png",
+        "X": -78.7439,
+        "Y": 42.76743,
+        "coordinates": "(-78.7439,42.76743)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7439,
+          42.76743
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 11,
+        "City": "Baltimore",
+        "TeamName": "Ravens",
+        "Stadium": "M&T Bank Stadium",
+        "Web": "http://www.baltimoreravens.com/",
+        "Stadium_Capacity": 71008,
+        "Established": 1996,
+        "Record": "9-7",
+        "Conference": "AFC",
+        "Division": "AFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/baltimore-ravens-logo-transparent.png",
+        "X": -76.666,
+        "Y": 39.31512,
+        "coordinates": "(-76.666,39.31512)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.666,
+          39.31512
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 12,
+        "City": "Washington",
+        "TeamName": "Redskins",
+        "Stadium": "FedEx Field",
+        "Web": "http://www.redskins.com/",
+        "Stadium_Capacity": 82000,
+        "Established": 1932,
+        "Record": "7-9",
+        "Conference": "NFC ",
+        "Division": "NFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/washington-redskins-logo-transparent.png",
+        "X": -76.8877,
+        "Y": 38.92441,
+        "coordinates": "(-76.8877,38.92441)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.8877,
+          38.92441
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 13,
+        "City": "New England",
+        "TeamName": "Patriots",
+        "Stadium": "Gillette Stadium",
+        "Web": "http://www.patriots.com/",
+        "Stadium_Capacity": 65878,
+        "Established": 1959,
+        "Record": "13-3",
+        "Conference": "AFC",
+        "Division": "AFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/new-england-patriots-logo-transparent.png",
+        "X": -71.2478,
+        "Y": 42.06468,
+        "coordinates": "(-71.2478,42.06468)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.2478,
+          42.06468
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 14,
+        "City": "Miami",
+        "TeamName": "Dolphins",
+        "Stadium": "Hard Rock Stadium",
+        "Web": "http://www.miamidolphins.com/",
+        "Stadium_Capacity": 64767,
+        "Established": 1965,
+        "Record": "6-10",
+        "Conference": "AFC ",
+        "Division": "AFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/miami-dolphins-logo-transparent.png",
+        "X": -80.2425,
+        "Y": 25.94327,
+        "coordinates": "(-80.2425,25.94327)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.2425,
+          25.94327
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 15,
+        "City": "Tennessee",
+        "TeamName": "Titans",
+        "Stadium": "Nissan Stadium",
+        "Web": "http://www.titansonline.com/",
+        "Stadium_Capacity": 69143,
+        "Established": 1959,
+        "Record": "9-7",
+        "Conference": "AFC ",
+        "Division": "AFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/tennessee-titans-logo-transparent.png",
+        "X": -86.6504,
+        "Y": 36.13555,
+        "coordinates": "(-86.6504,36.13555)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.6504,
+          36.13555
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 16,
+        "City": "Carolina",
+        "TeamName": "Panthers",
+        "Stadium": "Bank of America Stadium",
+        "Web": "http://www.panthers.com/",
+        "Stadium_Capacity": 75525,
+        "Established": 1993,
+        "Record": "11-5",
+        "Conference": "NFC ",
+        "Division": "NFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/carolina-panthers-logo-transparent.png",
+        "X": -80.8301,
+        "Y": 35.20802,
+        "coordinates": "(-80.8301,35.20802)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.8301,
+          35.20802
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 17,
+        "City": "Houston",
+        "TeamName": "Texans",
+        "Stadium": "NRG Stadium",
+        "Web": "http://www.houstontexans.com/",
+        "Stadium_Capacity": 71795,
+        "Established": 1999,
+        "Record": "4-12",
+        "Conference": "AFC ",
+        "Division": "AFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/houston-texans-logo-transparent.png",
+        "X": -95.3676,
+        "Y": 29.79706,
+        "coordinates": "(-95.3676,29.79706)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.3676,
+          29.79706
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 18,
+        "City": "Dallas",
+        "TeamName": "Cowboys",
+        "Stadium": "AT&T Stadium",
+        "Web": "http://www.dallascowboys.com/",
+        "Stadium_Capacity": 80000,
+        "Established": 1960,
+        "Record": "9-7",
+        "Conference": "NFC",
+        "Division": "NFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/dallas-cowboys-logo-transparent.png",
+        "X": -97.0862,
+        "Y": 32.70162,
+        "coordinates": "(-97.0862,32.70162)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.0862,
+          32.70162
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 19,
+        "City": "Seattle",
+        "TeamName": "Seahawks",
+        "Stadium": "CenturyLink Field",
+        "Web": "http://www.seahawks.com/",
+        "Stadium_Capacity": 69000,
+        "Established": 1974,
+        "Record": "9-7",
+        "Conference": "NFC",
+        "Division": "NFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/seattle-seahawks-logo-transparent.png",
+        "X": -122.324,
+        "Y": 47.622,
+        "coordinates": "(-122.324,47.622)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.324,
+          47.622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 20,
+        "City": "Oakland",
+        "TeamName": "Raiders",
+        "Stadium": "Oakland Alameda County Coliseum",
+        "Web": "http://www.raiders.com/",
+        "Stadium_Capacity": 56063,
+        "Established": 1960,
+        "Record": "6-10",
+        "Conference": "AFC ",
+        "Division": "AFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/oakland-raiders-logo-transparent.png",
+        "X": -122.215,
+        "Y": 37.79177,
+        "coordinates": "(-122.215,37.79177)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.215,
+          37.79177
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 21,
+        "City": "San Francisco",
+        "TeamName": "49ers",
+        "Stadium": "Levi's Stadium",
+        "Web": "http://www.49ers.com/",
+        "Stadium_Capacity": 68500,
+        "Established": 1944,
+        "Record": "6-10",
+        "Conference": "NFC",
+        "Division": "NFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/san-francisco-49ers-logo-transparent.png",
+        "X": -121.968,
+        "Y": 37.36463,
+        "coordinates": "(-121.968,37.36463)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -121.968,
+          37.36463
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 22,
+        "City": "New Orleans",
+        "TeamName": "Saints",
+        "Stadium": "Mercedes-Benz Superdome",
+        "Web": "http://www.neworleanssaints.com/",
+        "Stadium_Capacity": 73208,
+        "Established": 1966,
+        "Record": "11-5",
+        "Conference": "NFC",
+        "Division": "NFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/new-orleans-saints-logo-transparent.png",
+        "X": -89.9315,
+        "Y": 30.06872,
+        "coordinates": "(-89.9315,30.06872)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -89.9315,
+          30.06872
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 23,
+        "City": "Atlanta",
+        "TeamName": "Falcons",
+        "Stadium": "Mercedes-Benz Stadium",
+        "Web": "http://www.atlantafalcons.com/",
+        "Stadium_Capacity": 71000,
+        "Established": 1965,
+        "Record": "10-6",
+        "Conference": "NFC",
+        "Division": "NFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/atlanta-falcons-logo-transparent.png",
+        "X": -84.4231,
+        "Y": 33.763,
+        "coordinates": "(-84.4231,33.763)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -84.4231,
+          33.763
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 24,
+        "City": "Tampa Bay",
+        "TeamName": "Buccaneers",
+        "Stadium": "Raymond James Stadium",
+        "Web": "http://www.buccaneers.com/",
+        "Stadium_Capacity": 65890,
+        "Established": 1974,
+        "Record": "5-11",
+        "Conference": "NFC",
+        "Division": "NFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/tampa-bay-buccaneers-logo-transparent.png",
+        "X": -82.445,
+        "Y": 27.99602,
+        "coordinates": "(-82.445,27.99602)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -82.445,
+          27.99602
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 25,
+        "City": "Jacksonville",
+        "TeamName": "Jaguars",
+        "Stadium": "TIAA Bank Field",
+        "Web": "http://www.jaguars.com/",
+        "Stadium_Capacity": 69132,
+        "Established": 1993,
+        "Record": "10-6",
+        "Conference": "AFC",
+        "Division": "AFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/jacksonville-jaguars-logo-transparent.png",
+        "X": -81.6758,
+        "Y": 30.33216,
+        "coordinates": "(-81.6758,30.33216)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.6758,
+          30.33216
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 26,
+        "City": "Los Angeles",
+        "TeamName": "Chargers",
+        "Stadium": "Stub Hub Center",
+        "Web": "http://www.chargers.com/",
+        "Stadium_Capacity": 70240,
+        "Established": 1959,
+        "Record": "9-7",
+        "Conference": "AFC",
+        "Division": "AFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/los-angeles-chargers-logo-transparent.png",
+        "X": -118.54,
+        "Y": 34.17622,
+        "coordinates": "(-118.54,34.17622)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.54,
+          34.17622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 27,
+        "City": "Arizona",
+        "TeamName": "Cardinals",
+        "Stadium": "University of Phoenix Stadium",
+        "Web": "http://www.azcardinals.com/",
+        "Stadium_Capacity": 63400,
+        "Established": 1898,
+        "Record": "8-8",
+        "Conference": "NFC",
+        "Division": "NFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/arizona-cardinals-logo-transparent.png",
+        "X": -112.229,
+        "Y": 33.52686,
+        "coordinates": "(-112.229,33.52686)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -112.229,
+          33.52686
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 28,
+        "City": "Denver",
+        "TeamName": "Broncos",
+        "Stadium": "Sports Authority Field at Mile High",
+        "Web": "http://www.denverbroncos.com/",
+        "Stadium_Capacity": 76125,
+        "Established": 1959,
+        "Record": "5-11",
+        "Conference": "AFC ",
+        "Division": "AFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/denver-broncos-logo-transparent.png",
+        "X": -104.983,
+        "Y": 39.72942,
+        "coordinates": "(-104.983,39.72942)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.983,
+          39.72942
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 29,
+        "City": "Los Angeles",
+        "TeamName": "Rams",
+        "Stadium": "Los Angeles Memorial Stadium",
+        "Web": "http://www.therams.com/",
+        "Stadium_Capacity": 77500,
+        "Established": 1939,
+        "Record": "11-5",
+        "Conference": "NFC ",
+        "Division": "NFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/los-angeles-rams-logo-transparent.png",
+        "X": -118.647,
+        "Y": 34.16694,
+        "coordinates": "(-118.647,34.16694)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.647,
+          34.16694
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 30,
+        "City": "New York",
+        "TeamName": "Jets",
+        "Stadium": "MetLife Stadium",
+        "Web": "http://www.newyorkjets.com/",
+        "Stadium_Capacity": 82500,
+        "Established": 1959,
+        "Record": "5-11",
+        "Conference": "AFC ",
+        "Division": "AFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/new-york-jets-logo-transparent.png",
+        "X": -74.0944,
+        "Y": 40.83357,
+        "coordinates": "(-74.0944,40.83357)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0944,
+          40.83357
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 31,
+        "City": "New York",
+        "TeamName": "Giants",
+        "Stadium": "MetLife Stadium",
+        "Web": "http://www.giants.com/",
+        "Stadium_Capacity": 82500,
+        "Established": 1925,
+        "Record": "3-13",
+        "Conference": "NFC ",
+        "Division": "NFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/new-york-giants-logo-transparent.png",
+        "X": -74.0987,
+        "Y": 40.8339,
+        "coordinates": "(-74.0987,40.8339)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0987,
+          40.8339
+        ]
+      }
+    }
+  ]
+}
 		mapboxgl.accessToken = 'pk.eyJ1IjoiZ3Jvc3MxanciLCJhIjoiY2pkeXlhYjNxNGZjbTJ3cXB2ODg1OGJiYiJ9.KJO8FL7aEC-9SKfqGUdbjQ';
 		//function to slide the panel
 		function TogglesidePanel(_direction){
 			if(_direction=="out"){
-				$("#mainMap").animate({width:"70%"},600)
-				$("#sidePanel").animate({width:"30%"},600)
+				$("#mainMap").animate({width:"85%"},600)
+				$("#sidePanel").animate({width:"15%"},600)
 			}else{
 				$("#sidePanel").animate({width:"0%"},600)
 				$("#mainMap").animate({width:"100%"},600)
@@ -41,9 +968,35 @@
 		var map1 = new mapboxgl.Map({
 			container: 'mainMap',
 			style: 'mapbox://styles/mapbox/dark-v9',
-			zoom: 3.5,
-			center: [-98.5795,35.8283]
+			zoom: 4,
+			center: [-98.5795,38]
 		});
+		//disable controls
+		map1.scrollZoom.disable();
+		map1.dragPan.disable();
+		map1.doubleClickZoom.disable();
+		
+		Teams.features.forEach(function(marker) {
+
+		// create a HTML element for each feature
+		var el = document.createElement('div');
+		el.className = 'marker';
+		el.style.backgroundImage = "url("+marker.properties.IMAGE+")";
+		// make a marker for each feature and add to the map
+		new mapboxgl.Marker(el)
+			.setLngLat(marker.geometry.coordinates)
+			.addTo(map1);
+		});
+		map1.on('click', 'amphibians-point', function(e) {
+				new mapboxgl.Popup()
+				.setLngLat(e.features[0].geometry.coordinates)
+				.setHTML('<b>Species:</b> ' + e.features[0].properties.Species)
+				.addTo(map1);
+				TogglesidePanel("in");
+				map2.setFilter('species-point',['==','Species',e.features[0].properties.Species]);
+				map2.setFilter('species-point',['==','Species',e.features[0].properties.Species]);
+		});
+		
 	</script>
 </body>
 </html>

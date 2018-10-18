@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>J&R's NFL SuperMap</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+		.uiButton{
+			background-color: 	rgba(0,58,115,1);
+			color: white;
+			width:250px;
+			height:75px;
+			padding: 16px;
+			font-size: 16px;
+			font-color: #000000;
+			font-weight: bold;
+			text-align: middle;
+			
+			text-shadow: 
+				-.5px -.5px 0 rgba(218,33,39,1),  
+				 .5px -.5px 0 rgba(218,33,39,1),
+				-.5px  .5px 0 rgba(218,33,39,1),
+				 .5px  .5px 0 rgba(218,33,39,1);
+			border: none;
+			cursor: pointer;
+			position:left;
+			margin-right:-10px;
+			outline-style:solid;
+			outline-color: #8B0000;
+			box-shadow: 0 8px 16px 0 rgba(0,58,115,1), 0 6px 20px 0 rgba(0,58,115,1)
+			
+		}
+
+		ul{
+			list-style:none;
+			padding:0;
+		}
+
+		ul li{
+			position:relative;
+		}
+
+		#navbar > ul > li{
+			display:inline-block;
+		}
+
+		#navbar ul ul{
+			display:none;
+			position:absolute;
+			top:100%;
+		}
+
+		#navbar ul li:hover > ul{
+			display:block;
+		}
+
+		#navbar ul ul ul{
+			top:0;
+			left:100%;
+		}	
+
+		
+		.secondbutton{
+			background-color: 	rgba(0,58,115,1);
+			width:150px;
+			height:50px;
+			color: white;
+		}
+		.Thirdbutton{
+			background-color: 	#8B0000;
+			width:150px;
+			height:50px;
+			color: white;
+		}
+		.Fourthbutton{
+			background-color: 		#006400;
+			width:150px;
+			height:50px;
+			color: white;
+		}
+		.secondbutton a {
+			color: black;
+			padding: px 16px;
+			text-decoration: none;
+			display: inline-block;
+			
+		}
+		.show {
+			display: block;
+		}		
+		#map{
+			width: 1920px;
+			height: 1080px;
+			background-color: #969696;
+			margin-left:-10px;
+			margin-top:-100px;
+		}	
+		#buttons{
+			position:absolute;
+			top:10px;
+			left:10px;
+			z-index:1;		
+			
+		}
+		.mapboxgl-popup {
+				font: Helvetica;
+				font-size: 16px;
+				font-color: #000000;
+				text-align: center;
+				background-color: black;
+				}
+		.NoWhere {
+				position: absolute;
+				bottom: 0;
+				right: 1;
+				visibility: hidden;
+				}
+		
+}
+	</style>
+</head>
+<body>
+
+<div id="buttons">
+	<section id="navbar" class="secondbutton">
+		<ul>
+			<li><button class="uiButton" onClick = "myfunction('League','NFL')">National Football League</button>
+			&nbsp;
+				<ul>
+					<li><button class="secondbutton" onClick = "myfunction('Conference','AFC')">AFC</button>
+						<ul>
+							<li><button class="secondbutton" onClick = "myfunction('Division','AFCNorth')">North</button>
+								<ul>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Ravens')">Ravens</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Bengals')">Bengals</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Browns')">Browns</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Steelers')">Steelers</button></li>		
+								</ul>
+							</li>
+							<li><button class="secondbutton" onClick = "myfunction('Division','AFCSouth')">South</button>
+								<ul>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Colts')">Colts</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Texans')">Texans</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Jaguars')">Jaguars</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Titans')">Titans</button></li>		
+								</ul>
+							</li>
+							<li><button class="secondbutton" onClick = "myfunction('Division','AFCEast')">East</button>
+								<ul>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Patriots')">Patriots</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Bills')">Bills</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Jets')">Jets</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Dolphins')">Dolphins</button></li>		
+								</ul>
+							</li>
+							<li><button class="secondbutton" onClick = "myfunction('Division','AFCWest')">West</button>
+								<ul>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Chargers')">Chargers</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Raiders')">Raiders</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Broncos')">Broncos</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Chiefs')">Chiefs</button></li>		
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><button class="secondbutton" onClick = "myfunction('Conference','NFC')">NFC</button>
+						<ul>
+							<li><button class="secondbutton" onClick = "myfunction('Division','NFCNorth')">North</button>
+								<ul>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Lions')">Lions</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Packers')">Packers</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Bears')">Bears</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Vikings')">Vikings</button></li>		
+								</ul>
+							</li>
+							<li><button class="secondbutton" onClick = "myfunction('Division','NFCSouth')">South</button>
+								<ul>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Buccaneers')">Buccaneers</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Falcons')">Falcons</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Saints')">Saints</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Panthers')">Panthers</button></li>		
+								</ul>
+							</li>
+							<li><button class="secondbutton" onClick = "myfunction('Division','NFCEast')">East</button>
+								<ul>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Cowboys')">Cowboys</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Eagles')">Eagles</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Giants')">Giants</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Redskins')">Redskins</button></li>		
+								</ul>
+							</li>
+							<li><button class="secondbutton" onClick = "myfunction('Division','NFCWest')">West</button>
+								<ul>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Seahawks')">Seahawks</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','49ers')">49ers</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Rams')">Rams</button></li>
+										<li><button class="secondbutton" onClick = "myfunction('TeamName','Cardinals')">Cardinals</button></li>		
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><button class="Thirdbutton" onclick = "Nothing()">SuperBowls</button>
+				
+						<ul>
+							<li><button class="Thirdbutton">01-15</button>
+								<ul>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','I')">I</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','II')">II</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','III')">III</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','IV')">IV</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','V')">V</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','VI')">VI</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','VII')">VII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','VIII')">VIII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','IX')">IX</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','X')">X</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XI')">XI</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XII')">XII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XIII')">XIII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XIV')">XIV</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XV')">XV</button></li>		
+								</ul>
+							</li>
+							<li><button class="Thirdbutton">16-30</button>
+								<ul>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XVI')">XVI</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XVII')">XVII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XVIII')">XVIII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XIX')">XIX</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XX')">XX</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXI')">XXI</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXII')">XXII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXIII')">XXIII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXIV')">XXIV</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXV')">XXV</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXVI')">XXVI</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXVII')">XXVII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXVIII')">XXVIII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXIX')">XXIX</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXX')">XXX</button></li>		
+								</ul>
+							</li>
+							<li><button class="Thirdbutton"">31-45</button>
+								<ul>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXXI')">XXXI</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXXII')">XXXII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXXIII')">XXXIII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXXIV')">XXXIV</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXXV')">XXXV</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXXVI')">XXXVI</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXXVII')">XXXVII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXXVIII')">XXXVIII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XXXIX')">XXXIX</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XL')">XL</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XLI')">XLI</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XLII')">XLII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XLIII')">XLIII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XLIV')">XLIV</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XLV')">XLV</button></li>		
+								</ul>
+							</li>
+							<li><button class="Thirdbutton">46-52</button>
+								<ul>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XLVI')">XLVI</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XLVII')">XLVII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XLVIII')">XLVIII</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','XLIX')">XLIX</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','L')">L</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','LI')">LI</button></li>
+										<li><button class="Thirdbutton" onClick = "superfunction('Year','LII')">LII</button></li>	
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><button class="Fourthbutton" onClick = "clearall()">CLEAR MAP</button>
+				</ul>
+			</li>
+		</ul>
+	</section>
+	</div>
+	
+	<div id="map"></div>
+	<img src= "https://i.imgflip.com/15sp8r.jpg" class = NoWhere id = "Monkey">
+	<img src= "https://vignette.wikia.nocookie.net/adventuretimewithfinnandjake/images/3/32/Lol_no_no_no_cleveland_gif_family_guy.gif/revision/latest?cb=20130403020313" class = NoWhere id = "Browns">
+<script>
+
+var lions = false;
+var browns = false;
+
+var Teams = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 0,
+        "City": "Detroit",
+        "TeamName": "Lions",
+        "Stadium": "Ford Field",
+        "Web": "http://www.detroitlions.com/",
+        "Stadium_Capacity": 65000,
+        "Established": 1930,
+        "Record": "9-7",
+        "Conference": "NFC",
+        "Division": "NFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/detroit-lions-logo-transparent.png",
+        "X": -83.1936,
+        "Y": 42.39804,
+        "coordinates": "(-83.1936,42.39804)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.1936,
+          42.39804
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 1,
+        "City": "Chicago",
+        "TeamName": "Bears",
+        "Stadium": "Soldier Field",
+        "Web": "http://www.chicagobears.com/",
+        "Stadium_Capacity": 61500,
+        "Established": 1920,
+        "Record": "5-11",
+        "Conference": "NFC",
+        "Division": "NFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/chicago-bears-logo-transparent.png",
+        "X": -87.6882,
+        "Y": 41.83928,
+        "coordinates": "(-87.6882,41.83928)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.6882,
+          41.83928
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 2,
+        "City": "Cleveland",
+        "TeamName": "Browns",
+        "Stadium": "FirstEnergy Stadium",
+        "Web": "http://www.clevelandbrowns.com/",
+        "Stadium_Capacity": 67895,
+        "Established": 1944,
+        "Record": "0-16",
+        "Conference": "AFC",
+        "Division": "AFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/cleveland-browns-logo-transparent.png",
+        "X": -81.6805,
+        "Y": 41.47658,
+        "coordinates": "(-81.6805,41.47658)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.6805,
+          41.47658
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 3,
+        "City": "Pittsburgh",
+        "TeamName": "Steelers",
+        "Stadium": "Heinz Field",
+        "Web": "http://www.steelers.com/",
+        "Stadium_Capacity": 69690,
+        "Established": 1933,
+        "Record": "13-3",
+        "Conference": "AFC",
+        "Division": "AFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/pittsburgh-steelers-logo-transparent.png",
+        "X": -79.9763,
+        "Y": 40.43949,
+        "coordinates": "(-79.9763,40.43949)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.9763,
+          40.43949
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 4,
+        "City": "Indianapolis",
+        "TeamName": "Colts",
+        "Stadium": "Lucas Oil Stadium",
+        "Web": "http://www.colts.com/",
+        "Stadium_Capacity": 67000,
+        "Established": 1953,
+        "Record": "4-12",
+        "Conference": "AFC",
+        "Division": "AFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/indianapolis-colts-logo-transparent.png",
+        "X": -86.1464,
+        "Y": 39.77725,
+        "coordinates": "(-86.1464,39.77725)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.1464,
+          39.77725
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 5,
+        "City": "Cincinnati",
+        "TeamName": "Bengals",
+        "Stadium": "Paul Brown Stadium",
+        "Web": "http://www.bengals.com/",
+        "Stadium_Capacity": 65515,
+        "Established": 1967,
+        "Record": "7-9",
+        "Conference": "AFC ",
+        "Division": "AFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/cincinnati-bengals-logo-transparent.png",
+        "X": -84.5405,
+        "Y": 39.15568,
+        "coordinates": "(-84.5405,39.15568)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -84.5405,
+          39.15568
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 6,
+        "City": "GreenBay",
+        "TeamName": "Packers",
+        "Stadium": "Lambeau Field",
+        "Web": "http://www.packers.com/",
+        "Stadium_Capacity": 81441,
+        "Established": 1919,
+        "Record": "7-9",
+        "Conference": "NFC",
+        "Division": "NFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/green-bay-packers-logo-transparent.png",
+        "X": -87.9943,
+        "Y": 44.51409,
+        "coordinates": "(-87.9943,44.51409)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.9943,
+          44.51409
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 7,
+        "City": "Minnesota",
+        "TeamName": "Vikings",
+        "Stadium": "U.S. Bank Stadium",
+        "Web": "http://www.vikings.com/",
+        "Stadium_Capacity": 66655,
+        "Established": 1960,
+        "Record": "13-3",
+        "Conference": "NFC",
+        "Division": "NFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/minnesota-vikings-logo-transparent.png",
+        "X": -93.2678,
+        "Y": 44.96359,
+        "coordinates": "(-93.2678,44.96359)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -93.2678,
+          44.96359
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 8,
+        "City": "Kansas City",
+        "TeamName": "Chiefs",
+        "Stadium": "Arrowhead Stadium",
+        "Web": "http://www.chiefs.com/",
+        "Stadium_Capacity": 76416,
+        "Established": 1959,
+        "Record": "10-6",
+        "Conference": "AFC",
+        "Division": "AFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/kansas-city-chiefs-logo-transparent.png",
+        "X": -94.5757,
+        "Y": 38.98465,
+        "coordinates": "(-94.5757,38.98465)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -94.5757,
+          38.98465
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 9,
+        "City": "Philadalphia",
+        "TeamName": "Eagles",
+        "Stadium": "Lincoln Financial Field",
+        "Web": "http://www.philadelphiaeagles.com/",
+        "Stadium_Capacity": 69176,
+        "Established": 1933,
+        "Record": "13-3",
+        "Conference": "NFC",
+        "Division": "NFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/philadelphia-eagles-logo-transparent.png",
+        "X": -75.1339,
+        "Y": 40.00773,
+        "coordinates": "(-75.1339,40.00773)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.1339,
+          40.00773
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 10,
+        "City": "Buffalo",
+        "TeamName": "Bills",
+        "Stadium": "New Area Field",
+        "Web": "http://www.buffalobills.com/",
+        "Stadium_Capacity": 71608,
+        "Established": 1959,
+        "Record": "9-7",
+        "Conference": "AFC",
+        "Division": "AFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/buffalo-bills-logo-transparent.png",
+        "X": -78.7439,
+        "Y": 42.76743,
+        "coordinates": "(-78.7439,42.76743)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -78.7439,
+          42.76743
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 11,
+        "City": "Baltimore",
+        "TeamName": "Ravens",
+        "Stadium": "M&T Bank Stadium",
+        "Web": "http://www.baltimoreravens.com/",
+        "Stadium_Capacity": 71008,
+        "Established": 1996,
+        "Record": "9-7",
+        "Conference": "AFC",
+        "Division": "AFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/baltimore-ravens-logo-transparent.png",
+        "X": -76.666,
+        "Y": 39.31512,
+        "coordinates": "(-76.666,39.31512)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.666,
+          39.31512
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 12,
+        "City": "Washington",
+        "TeamName": "Redskins",
+        "Stadium": "FedEx Field",
+        "Web": "http://www.redskins.com/",
+        "Stadium_Capacity": 82000,
+        "Established": 1932,
+        "Record": "7-9",
+        "Conference": "NFC ",
+        "Division": "NFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/washington-redskins-logo-transparent.png",
+        "X": -76.8877,
+        "Y": 38.92441,
+        "coordinates": "(-76.8877,38.92441)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.8877,
+          38.92441
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 13,
+        "City": "New England",
+        "TeamName": "Patriots",
+        "Stadium": "Gillette Stadium",
+        "Web": "http://www.patriots.com/",
+        "Stadium_Capacity": 65878,
+        "Established": 1959,
+        "Record": "13-3",
+        "Conference": "AFC",
+        "Division": "AFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/new-england-patriots-logo-transparent.png",
+        "X": -71.2478,
+        "Y": 42.06468,
+        "coordinates": "(-71.2478,42.06468)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.2478,
+          42.06468
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 14,
+        "City": "Miami",
+        "TeamName": "Dolphins",
+        "Stadium": "Hard Rock Stadium",
+        "Web": "http://www.miamidolphins.com/",
+        "Stadium_Capacity": 64767,
+        "Established": 1965,
+        "Record": "6-10",
+        "Conference": "AFC ",
+        "Division": "AFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/miami-dolphins-logo-transparent.png",
+        "X": -80.2425,
+        "Y": 25.94327,
+        "coordinates": "(-80.2425,25.94327)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.2425,
+          25.94327
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 15,
+        "City": "Tennessee",
+        "TeamName": "Titans",
+        "Stadium": "Nissan Stadium",
+        "Web": "http://www.titansonline.com/",
+        "Stadium_Capacity": 69143,
+        "Established": 1959,
+        "Record": "9-7",
+        "Conference": "AFC ",
+        "Division": "AFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/tennessee-titans-logo-transparent.png",
+        "X": -86.6504,
+        "Y": 36.13555,
+        "coordinates": "(-86.6504,36.13555)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.6504,
+          36.13555
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 16,
+        "City": "Carolina",
+        "TeamName": "Panthers",
+        "Stadium": "Bank of America Stadium",
+        "Web": "http://www.panthers.com/",
+        "Stadium_Capacity": 75525,
+        "Established": 1993,
+        "Record": "11-5",
+        "Conference": "NFC ",
+        "Division": "NFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/carolina-panthers-logo-transparent.png",
+        "X": -80.8301,
+        "Y": 35.20802,
+        "coordinates": "(-80.8301,35.20802)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.8301,
+          35.20802
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 17,
+        "City": "Houston",
+        "TeamName": "Texans",
+        "Stadium": "NRG Stadium",
+        "Web": "http://www.houstontexans.com/",
+        "Stadium_Capacity": 71795,
+        "Established": 1999,
+        "Record": "4-12",
+        "Conference": "AFC ",
+        "Division": "AFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/houston-texans-logo-transparent.png",
+        "X": -95.3676,
+        "Y": 29.79706,
+        "coordinates": "(-95.3676,29.79706)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.3676,
+          29.79706
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 18,
+        "City": "Dallas",
+        "TeamName": "Cowboys",
+        "Stadium": "AT&T Stadium",
+        "Web": "http://www.dallascowboys.com/",
+        "Stadium_Capacity": 80000,
+        "Established": 1960,
+        "Record": "9-7",
+        "Conference": "NFC",
+        "Division": "NFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/dallas-cowboys-logo-transparent.png",
+        "X": -97.0862,
+        "Y": 32.70162,
+        "coordinates": "(-97.0862,32.70162)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.0862,
+          32.70162
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 19,
+        "City": "Seattle",
+        "TeamName": "Seahawks",
+        "Stadium": "CenturyLink Field",
+        "Web": "http://www.seahawks.com/",
+        "Stadium_Capacity": 69000,
+        "Established": 1974,
+        "Record": "9-7",
+        "Conference": "NFC",
+        "Division": "NFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/seattle-seahawks-logo-transparent.png",
+        "X": -122.324,
+        "Y": 47.622,
+        "coordinates": "(-122.324,47.622)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.324,
+          47.622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 20,
+        "City": "Oakland",
+        "TeamName": "Raiders",
+        "Stadium": "Oakland Alameda County Coliseum",
+        "Web": "http://www.raiders.com/",
+        "Stadium_Capacity": 56063,
+        "Established": 1960,
+        "Record": "6-10",
+        "Conference": "AFC ",
+        "Division": "AFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/oakland-raiders-logo-transparent.png",
+        "X": -122.215,
+        "Y": 37.79177,
+        "coordinates": "(-122.215,37.79177)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.215,
+          37.79177
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 21,
+        "City": "San Francisco",
+        "TeamName": "49ers",
+        "Stadium": "Levi's Stadium",
+        "Web": "http://www.49ers.com/",
+        "Stadium_Capacity": 68500,
+        "Established": 1944,
+        "Record": "6-10",
+        "Conference": "NFC",
+        "Division": "NFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/san-francisco-49ers-logo-transparent.png",
+        "X": -121.968,
+        "Y": 37.36463,
+        "coordinates": "(-121.968,37.36463)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -121.968,
+          37.36463
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 22,
+        "City": "New Orleans",
+        "TeamName": "Saints",
+        "Stadium": "Mercedes-Benz Superdome",
+        "Web": "http://www.neworleanssaints.com/",
+        "Stadium_Capacity": 73208,
+        "Established": 1966,
+        "Record": "11-5",
+        "Conference": "NFC",
+        "Division": "NFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/new-orleans-saints-logo-transparent.png",
+        "X": -89.9315,
+        "Y": 30.06872,
+        "coordinates": "(-89.9315,30.06872)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -89.9315,
+          30.06872
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 23,
+        "City": "Atlanta",
+        "TeamName": "Falcons",
+        "Stadium": "Mercedes-Benz Stadium",
+        "Web": "http://www.atlantafalcons.com/",
+        "Stadium_Capacity": 71000,
+        "Established": 1965,
+        "Record": "10-6",
+        "Conference": "NFC",
+        "Division": "NFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/atlanta-falcons-logo-transparent.png",
+        "X": -84.4231,
+        "Y": 33.763,
+        "coordinates": "(-84.4231,33.763)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -84.4231,
+          33.763
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 24,
+        "City": "Tampa Bay",
+        "TeamName": "Buccaneers",
+        "Stadium": "Raymond James Stadium",
+        "Web": "http://www.buccaneers.com/",
+        "Stadium_Capacity": 65890,
+        "Established": 1974,
+        "Record": "5-11",
+        "Conference": "NFC",
+        "Division": "NFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/tampa-bay-buccaneers-logo-transparent.png",
+        "X": -82.445,
+        "Y": 27.99602,
+        "coordinates": "(-82.445,27.99602)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -82.445,
+          27.99602
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 25,
+        "City": "Jacksonville",
+        "TeamName": "Jaguars",
+        "Stadium": "TIAA Bank Field",
+        "Web": "http://www.jaguars.com/",
+        "Stadium_Capacity": 69132,
+        "Established": 1993,
+        "Record": "10-6",
+        "Conference": "AFC",
+        "Division": "AFCSouth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/jacksonville-jaguars-logo-transparent.png",
+        "X": -81.6758,
+        "Y": 30.33216,
+        "coordinates": "(-81.6758,30.33216)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.6758,
+          30.33216
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 26,
+        "City": "Los Angeles",
+        "TeamName": "Chargers",
+        "Stadium": "Stub Hub Center",
+        "Web": "http://www.chargers.com/",
+        "Stadium_Capacity": 70240,
+        "Established": 1959,
+        "Record": "9-7",
+        "Conference": "AFC",
+        "Division": "AFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/los-angeles-chargers-logo-transparent.png",
+        "X": -118.54,
+        "Y": 34.17622,
+        "coordinates": "(-118.54,34.17622)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.54,
+          34.17622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 27,
+        "City": "Arizona",
+        "TeamName": "Cardinals",
+        "Stadium": "University of Phoenix Stadium",
+        "Web": "http://www.azcardinals.com/",
+        "Stadium_Capacity": 63400,
+        "Established": 1898,
+        "Record": "8-8",
+        "Conference": "NFC",
+        "Division": "NFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/arizona-cardinals-logo-transparent.png",
+        "X": -112.229,
+        "Y": 33.52686,
+        "coordinates": "(-112.229,33.52686)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -112.229,
+          33.52686
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 28,
+        "City": "Denver",
+        "TeamName": "Broncos",
+        "Stadium": "Sports Authority Field at Mile High",
+        "Web": "http://www.denverbroncos.com/",
+        "Stadium_Capacity": 76125,
+        "Established": 1959,
+        "Record": "5-11",
+        "Conference": "AFC ",
+        "Division": "AFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/denver-broncos-logo-transparent.png",
+        "X": -104.983,
+        "Y": 39.72942,
+        "coordinates": "(-104.983,39.72942)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.983,
+          39.72942
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 29,
+        "City": "Los Angeles",
+        "TeamName": "Rams",
+        "Stadium": "Los Angeles Memorial Stadium",
+        "Web": "http://www.therams.com/",
+        "Stadium_Capacity": 77500,
+        "Established": 1939,
+        "Record": "11-5",
+        "Conference": "NFC ",
+        "Division": "NFCWest",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/los-angeles-rams-logo-transparent.png",
+        "X": -118.647,
+        "Y": 34.16694,
+        "coordinates": "(-118.647,34.16694)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.647,
+          34.16694
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 30,
+        "City": "New York",
+        "TeamName": "Jets",
+        "Stadium": "MetLife Stadium",
+        "Web": "http://www.newyorkjets.com/",
+        "Stadium_Capacity": 82500,
+        "Established": 1959,
+        "Record": "5-11",
+        "Conference": "AFC ",
+        "Division": "AFCEast",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/new-york-jets-logo-transparent.png",
+        "X": -74.0944,
+        "Y": 40.83357,
+        "coordinates": "(-74.0944,40.83357)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0944,
+          40.83357
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FID": 31,
+        "City": "New York",
+        "TeamName": "Giants",
+        "Stadium": "MetLife Stadium",
+        "Web": "http://www.giants.com/",
+        "Stadium_Capacity": 82500,
+        "Established": 1925,
+        "Record": "3-13",
+        "Conference": "NFC ",
+        "Division": "NFCNorth",
+        "IMAGE": "https://s3.amazonaws.com/freebiesupply/large/2x/new-york-giants-logo-transparent.png",
+        "X": -74.0987,
+        "Y": 40.8339,
+        "coordinates": "(-74.0987,40.8339)",
+        "League": "NFL",
+        "field_16": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0987,
+          40.8339
+        ]
+      }
+    }
+  ]
+}
+
+var SuperBowl = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "I",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/green-bay-packers-logo-transparent.png",
+        "Date": "15-Jan-67",
+        "Team1": "GB Packers",
+        "Score": "35–10",
+        "Team2": "KC Chiefs",
+        "Std_Name": "Los Angeles Memorial Coliseum",
+        "Y": 34.0141,
+        "X": -118.2879
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.2879,
+          34.0141
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "II",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/green-bay-packers-logo-transparent.png",
+        "Date": "14-Jan-68",
+        "Team1": "GB Packers",
+        "Score": "33–14",
+        "Team2": "OAK Raiders",
+        "Std_Name": "Miami Orange Bowl",
+        "Y": 25.77349357,
+        "X": -80.21855079
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.21855079,
+          25.77349357
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "III",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/new-york-jets-logo-transparent.png",
+        "Date": "12-Jan-69",
+        "Team1": "NY Jets",
+        "Score": "16–7",
+        "Team2": "IND Colts",
+        "Std_Name": "Miami Orange Bowl",
+        "Y": 25.77349357,
+        "X": -80.21855079
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.21855079,
+          25.77349357
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "IV",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/kansas-city-chiefs-logo-transparent.png",
+        "Date": "11-Jan-70",
+        "Team1": "KC Chiefs",
+        "Score": "23–7",
+        "Team2": "MIN Vikings",
+        "Std_Name": "Tulane Stadium",
+        "Y": 29.9446,
+        "X": -90.1167
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.1167,
+          29.9446
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "V",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/indianapolis-colts-logo-transparent.png",
+        "Date": "17-Jan-71",
+        "Team1": "IND Colts",
+        "Score": "16–13",
+        "Team2": "DAL Cowboys",
+        "Std_Name": "Miami Orange Bowl",
+        "Y": 25.77349357,
+        "X": -80.21855079
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.21855079,
+          25.77349357
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "VI",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/dallas-cowboys-logo-transparent.png",
+        "Date": "16-Jan-72",
+        "Team1": "DAL Cowboys",
+        "Score": "24–3",
+        "Team2": "MIA Dolphins",
+        "Std_Name": "Tulane Stadium",
+        "Y": 29.9446,
+        "X": -90.1167
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.1167,
+          29.9446
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "VII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/miami-dolphins-logo-transparent.png",
+        "Date": "14-Jan-73",
+        "Team1": "MIA Dolphins",
+        "Score": "14–7",
+        "Team2": "WAS Redskins",
+        "Std_Name": "Los Angeles Memorial Coliseum",
+        "Y": 34.0141,
+        "X": -118.2879
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.2879,
+          34.0141
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "VIII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/miami-dolphins-logo-transparent.png",
+        "Date": "13-Jan-74",
+        "Team1": "MIA Dolphins",
+        "Score": "24–7",
+        "Team2": "MIN Vikings",
+        "Std_Name": "Rice Stadium",
+        "Y": 29.7163,
+        "X": -95.4093
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.4093,
+          29.7163
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "IX",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/pittsburgh-steelers-logo-transparent.png",
+        "Date": "12-Jan-75",
+        "Team1": "PIT Steelers",
+        "Score": "16–6",
+        "Team2": "MIN Vikings",
+        "Std_Name": "Tulane Stadium",
+        "Y": 29.9446,
+        "X": -90.1167
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.1167,
+          29.9446
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "X",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/pittsburgh-steelers-logo-transparent.png",
+        "Date": "18-Jan-76",
+        "Team1": "PIT Steelers",
+        "Score": "21–17",
+        "Team2": "DAL Cowboys",
+        "Std_Name": "Miami Orange Bowl",
+        "Y": 25.77349357,
+        "X": -80.21855079
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.21855079,
+          25.77349357
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XI",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/oakland-raiders-logo-transparent.png",
+        "Date": "9-Jan-77",
+        "Team1": "OAK Raiders",
+        "Score": "32–14",
+        "Team2": "MIN Vikings",
+        "Std_Name": "Rose Bowl",
+        "Y": 34.1613,
+        "X": -118.1676
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.1676,
+          34.1613
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/dallas-cowboys-transparent.png",
+        "Date": "15-Jan-78",
+        "Team1": "DAL Cowboys",
+        "Score": "27–10",
+        "Team2": "DEN Broncos",
+        "Std_Name": "Louisiana Superdome",
+        "Y": 29.9511,
+        "X": -90.0812
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.0812,
+          29.9511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XIII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/pittsburgh-steelers-logo-transparent.png",
+        "Date": "21-Jan-79",
+        "Team1": "PIT Steelers",
+        "Score": "35–31",
+        "Team2": "DAL Cowboys",
+        "Std_Name": "Miami Orange Bowl",
+        "Y": 25.77349357,
+        "X": -80.21855079
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.21855079,
+          25.77349357
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XIV",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/pittsburgh-steelers-logo-transparent.png",
+        "Date": "20-Jan-80",
+        "Team1": "PIT Steelers",
+        "Score": "31–19",
+        "Team2": "LA Rams",
+        "Std_Name": "Rose Bowl",
+        "Y": 34.1613,
+        "X": -118.1676
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.1676,
+          34.1613
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XV",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/oakland-raiders-logo-transparent.png",
+        "Date": "25-Jan-81",
+        "Team1": "OAK Raiders",
+        "Score": "27–10",
+        "Team2": "PHI Eagles",
+        "Std_Name": "Louisiana Superdome ",
+        "Y": 29.9511,
+        "X": -90.0812
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.0812,
+          29.9511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XVI",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/san-francisco-49ers-logo-transparent.png",
+        "Date": "24-Jan-82",
+        "Team1": "SF 49ers",
+        "Score": "26–21",
+        "Team2": "CIN Bengals",
+        "Std_Name": "Pontiac Silverdome",
+        "Y": 42.6458,
+        "X": -83.255
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.255,
+          42.6458
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XVII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/washington-redskins-logo-transparent.png",
+        "Date": "30-Jan-83",
+        "Team1": "WAS Redskins",
+        "Score": "27–17",
+        "Team2": "MIA Dolphins",
+        "Std_Name": "Rose Bowl",
+        "Y": 34.1613,
+        "X": -118.1676
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.1676,
+          34.1613
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XVIII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/oakland-raiders-logo-transparent.png",
+        "Date": "22-Jan-84",
+        "Team1": "OAK Raiders",
+        "Score": "38–9",
+        "Team2": "WAS Redskins",
+        "Std_Name": "Tampa Stadium",
+        "Y": 27.9759,
+        "X": -82.5033
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -82.5033,
+          27.9759
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XIX",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/san-francisco-49ers-logo-transparent.png",
+        "Date": "20-Jan-85",
+        "Team1": "SF 49ers",
+        "Score": "38–16",
+        "Team2": "MIA Dolphins",
+        "Std_Name": "Stanford Stadium",
+        "Y": 37.4241,
+        "X": -122.1661
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.1661,
+          37.4241
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XX",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/chicago-bears-logo-transparent.png",
+        "Date": "26-Jan-86",
+        "Team1": "CHI Bears",
+        "Score": "46–10",
+        "Team2": "NE Patriots",
+        "Std_Name": "Louisiana Superdome",
+        "Y": 29.9511,
+        "X": -90.0812
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.0812,
+          29.9511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXI",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/new-york-giants-logo-transparent.png",
+        "Date": "25-Jan-87",
+        "Team1": "NY Giants",
+        "Score": "39–20",
+        "Team2": "DEN Broncos",
+        "Std_Name": "Rose Bowl",
+        "Y": 34.1613,
+        "X": -118.1676
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.1676,
+          34.1613
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/washington-redskins-logo-transparent.png",
+        "Date": "31-Jan-88",
+        "Team1": "WAS Redskins",
+        "Score": "42–10",
+        "Team2": "DEN Broncos",
+        "Std_Name": "San Diego–Jack Murphy Stadium",
+        "Y": 32.7831,
+        "X": -117.1196
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.1196,
+          32.7831
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXIII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/san-francisco-49ers-logo-transparent.png",
+        "Date": "22-Jan-89",
+        "Team1": "SF 49ers",
+        "Score": "20–16",
+        "Team2": "CIN Bengals",
+        "Std_Name": "Joe Robbie Stadium",
+        "Y": 25.958,
+        "X": -80.2389
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.2389,
+          25.958
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXIV",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/san-francisco-49ers-logo-transparent.png",
+        "Date": "28-Jan-90",
+        "Team1": "SF 49ers",
+        "Score": "55–10",
+        "Team2": "DEN Broncos",
+        "Std_Name": "Louisiana Superdome",
+        "Y": 29.9511,
+        "X": -90.0812
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.0812,
+          29.9511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXV",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/new-york-giants-logo-transparent.png",
+        "Date": "27-Jan-91",
+        "Team1": "NY Giants",
+        "Score": "20–19",
+        "Team2": "BUF Bills",
+        "Std_Name": "Tampa Stadium",
+        "Y": 27.9759,
+        "X": -82.5033
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -82.5033,
+          27.9759
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXVI",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/washington-redskins-logo-transparent.png",
+        "Date": "26-Jan-92",
+        "Team1": "WAS Redskins",
+        "Score": "37–24",
+        "Team2": "BUF Bills",
+        "Std_Name": "Metrodome",
+        "Y": 44.9729616,
+        "X": -93.2588571
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -93.2588571,
+          44.9729616
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXVII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/dallas-cowboys-logo-transparent.png",
+        "Date": "31-Jan-93",
+        "Team1": "DAL Cowboys",
+        "Score": "52–17",
+        "Team2": "BUF Bills",
+        "Std_Name": "Rose Bowl",
+        "Y": 34.1613,
+        "X": -118.1676
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.1676,
+          34.1613
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXVIII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/dallas-cowboys-logo-transparent.png",
+        "Date": "30-Jan-94",
+        "Team1": "DAL Cowboys",
+        "Score": "30–13",
+        "Team2": "BUF Bills",
+        "Std_Name": "Georgia Dome",
+        "Y": 33.7577,
+        "X": -84.4008
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -84.4008,
+          33.7577
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXIX",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/san-francisco-49ers-logo-transparent.png",
+        "Date": "29-Jan-95",
+        "Team1": "SF 49ers",
+        "Score": "49–26",
+        "Team2": "LA Chargers",
+        "Std_Name": "Joe Robbie Stadium",
+        "Y": 25.958,
+        "X": -80.2389
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.2389,
+          25.958
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXX",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/dallas-cowboys-logo-transparent.png",
+        "Date": "28-Jan-96",
+        "Team1": "DAL Cowboys",
+        "Score": "27–17",
+        "Team2": "PIT Steelers",
+        "Std_Name": "Sun Devil Stadium",
+        "Y": 33.4251,
+        "X": -111.9219
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.9219,
+          33.4251
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXXI",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/green-bay-packers-logo-transparent.png",
+        "Date": "26-Jan-97",
+        "Team1": "GB Packers",
+        "Score": "35–21",
+        "Team2": "NE Patriots",
+        "Std_Name": "Louisiana Superdome",
+        "Y": 29.9511,
+        "X": -90.0812
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.0812,
+          29.9511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXXII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/denver-broncos-logo-transparent.png",
+        "Date": "25-Jan-98",
+        "Team1": "DEN Broncos",
+        "Score": "31–24",
+        "Team2": "GB Packers",
+        "Std_Name": "Qualcomm Stadium",
+        "Y": 32.7831,
+        "X": -117.1196
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.1196,
+          32.7831
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXXIII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/denver-broncos-logo-transparent.png",
+        "Date": "31-Jan-99",
+        "Team1": "DEN Broncos",
+        "Score": "34–19",
+        "Team2": "ATL Falcons",
+        "Std_Name": "Pro Player Stadium",
+        "Y": 25.958,
+        "X": -80.2389
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.2389,
+          25.958
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXXIV",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/los-angeles-rams-logo-transparent.png",
+        "Date": "30-Jan-00",
+        "Team1": "LA Rams",
+        "Score": "23–16",
+        "Team2": "TEN Titans",
+        "Std_Name": "Georgia Dome",
+        "Y": 33.7577,
+        "X": -84.4008
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -84.4008,
+          33.7577
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXXV",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/baltimore-ravens-logo-transparent.png",
+        "Date": "28-Jan-01",
+        "Team1": "BAL Ravens",
+        "Score": "34–7",
+        "Team2": "NY Giants",
+        "Std_Name": "Raymond James Stadium",
+        "Y": 27.9759,
+        "X": -82.5033
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -82.5033,
+          27.9759
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXXVI",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/new-england-patriots-logo-transparent.png",
+        "Date": "3-Feb-02",
+        "Team1": "NE Patriots",
+        "Score": "20–17",
+        "Team2": "LA Rams",
+        "Std_Name": "Louisiana Superdome",
+        "Y": 29.9511,
+        "X": -90.0812
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.0812,
+          29.9511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXXVII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/tampa-bay-patriots-logo-transparent.png",
+        "Date": "26-Jan-03",
+        "Team1": "TB Buccaneers",
+        "Score": "48–21",
+        "Team2": "OAK Raiders",
+        "Std_Name": "Qualcomm Stadium",
+        "Y": 32.7831,
+        "X": -117.1196
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.1196,
+          32.7831
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXXVIII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/new-england-patriots-logo-transparent.png",
+        "Date": "1-Feb-04",
+        "Team1": "NE Patriots",
+        "Score": "32–29",
+        "Team2": "CAR Panthers",
+        "Std_Name": "Reliant Stadium",
+        "Y": 29.6847,
+        "X": -95.4107
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.4107,
+          29.6847
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XXXIX",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/new-england-patriots-logo-transparent.png",
+        "Date": "6-Feb-05",
+        "Team1": "NE Patriots",
+        "Score": "24–21",
+        "Team2": "PHI Eagles",
+        "Std_Name": "Alltel Stadium",
+        "Y": 30.324,
+        "X": -81.6373
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.6373,
+          30.324
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XL",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/pittsburgh-steelers-logo-transparent.png",
+        "Date": "5-Feb-06",
+        "Team1": "PIT Steelers",
+        "Score": "21–10",
+        "Team2": "SEA Seahawks",
+        "Std_Name": "Ford Field",
+        "Y": 42.34,
+        "X": -83.0456
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.0456,
+          42.34
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XLI",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/indianapolis-colts-logo-transparent.png",
+        "Date": "4-Feb-07",
+        "Team1": "IND Colts",
+        "Score": "29–17",
+        "Team2": "CHI Bears",
+        "Std_Name": "Dolphin Stadium",
+        "Y": 25.958,
+        "X": -80.2389
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.2389,
+          25.958
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XLII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/new-york-giants-logo-transparent.png",
+        "Date": "3-Feb-08",
+        "Team1": "NY Giants",
+        "Score": "17–14",
+        "Team2": "NE Patriots",
+        "Std_Name": "University of Phoenix Stadium",
+        "Y": 33.5276,
+        "X": -112.2626
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -112.2626,
+          33.5276
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XLIII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/pittsburgh-steelers-logo-transparent.png",
+        "Date": "1-Feb-09",
+        "Team1": "PIT Steelers",
+        "Score": "27–23",
+        "Team2": "ARZ Cardinals",
+        "Std_Name": "Raymond James Stadium",
+        "Y": 27.9759,
+        "X": -82.5033
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -82.5033,
+          27.9759
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XLIV",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/new-orleans-saints-logo-transparent.png",
+        "Date": "7-Feb-10",
+        "Team1": "NO Saints",
+        "Score": "31–17",
+        "Team2": "IND Colts",
+        "Std_Name": "Sun Life Stadium",
+        "Y": 25.958,
+        "X": -80.2389
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.2389,
+          25.958
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XLV",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/green-bay-packers-logo-transparent.png",
+        "Date": "6-Feb-11",
+        "Team1": "GB Packers",
+        "Score": "31–25",
+        "Team2": "PIT Steelers",
+        "Std_Name": "Cowboys Stadium",
+        "Y": 32.7473,
+        "X": -97.0945
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -97.0945,
+          32.7473
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XLVI",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/new-york-giants-logo-transparent.png",
+        "Date": "5-Feb-12",
+        "Team1": "NY Giants",
+        "Score": "21–17",
+        "Team2": "NE Patriots",
+        "Std_Name": "Lucas Oil Stadium",
+        "Y": 39.7601,
+        "X": -86.1639
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.1639,
+          39.7601
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XLVII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/baltimore-ravens-logo-transparent.png",
+        "Date": "3-Feb-13",
+        "Team1": "BAL Ravens",
+        "Score": "34–31",
+        "Team2": "SF 49ers",
+        "Std_Name": "Mercedes-Benz Superdome",
+        "Y": 29.9511,
+        "X": -90.0812
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -90.0812,
+          29.9511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XLVIII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/seattle-seahawks-logo-transparent.png",
+        "Date": "2-Feb-14",
+        "Team1": "SEA Seahawks",
+        "Score": "43–8",
+        "Team2": "DEN Broncos",
+        "Std_Name": "MetLife Stadium",
+        "Y": 40.8128,
+        "X": -74.0742
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -74.0742,
+          40.8128
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "XLIX",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/new-england-patriots-logo-transparent.png",
+        "Date": "1-Feb-15",
+        "Team1": "NE Patriots",
+        "Score": "28–24",
+        "Team2": "SEA Seahawks",
+        "Std_Name": "University of Phoenix Stadium",
+        "Y": 33.5276,
+        "X": -112.2626
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -112.2626,
+          33.5276
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "L",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/denver-broncos-logo-transparent.png",
+        "Date": "7-Feb-16",
+        "Team1": "DEN Broncos",
+        "Score": "24–10",
+        "Team2": "CAR Panthers",
+        "Std_Name": "Levi's Stadium",
+        "Y": 37.4032,
+        "X": -121.9698
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -121.9698,
+          37.4032
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "LI",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/new-england-patriots-logo-transparent.png",
+        "Date": "5-Feb-17",
+        "Team1": "NE Patriots",
+        "Score": "34–28 (OT)",
+        "Team2": "ATL Falcons",
+        "Std_Name": "NRG Stadium",
+        "Y": 29.6847,
+        "X": -95.4107
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -95.4107,
+          29.6847
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Year": "LII",
+		"WIN": "https://s3.amazonaws.com/freebiesupply/large/2x/philadelphia-eagles-logo-transparent.png",
+        "Date": "4-Feb-18",
+        "Team1": "PHI Eagles",
+        "Score": "41–33",
+        "Team2": "NE Patriots",
+        "Std_Name": "U.S. Bank Stadium",
+        "Y": 44.9738,
+        "X": -93.2578
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -93.2578,
+          44.9738
+        ]
+      }
+    }
+  ]
+}
+
+//This function sets the Team layer filtering for the map. 
+function myfunction(x,y)
+	{ 
+	//This Does Absolutely nothing
+		var monkey = document.getElementById("Monkey");
+		monkey.setAttribute("style", "visibility: hidden")
+		var cleve = document.getElementById("Browns");
+		cleve.setAttribute("style", "visibility: hidden")
+		//End of nothing
+		Field = x;
+		Search = y;
+		if (y == "Lions") {
+			lions = true;
+			browns = false;
+		} 
+		else {
+			lions = false;
+		}
+		if (y == "Browns") {
+			browns = true;
+			lions = false;
+		} 
+		else {
+			browns = false;
+		}
+		
+		map.setFilter("TeamsLayer", null);
+		map.setFilter("TeamsLayer",["==",x,y]);
+		map.setLayoutProperty('TeamsLayer', 'visibility', 'visible');
+	};
+
+	
+//This function sets the Super Bowl layer filtering for the map.
+function superfunction(x,y)
+	{
+		//This Does Absolutely nothing
+		var monkey = document.getElementById("Monkey");
+		monkey.setAttribute("style", "visibility: hidden")
+		var cleve = document.getElementById("Browns");
+		cleve.setAttribute("style", "visibility: hidden")
+		//End of nothing
+	
+		Field = x;
+		Search = y;
+		console.log(x + y);
+		map.setFilter("SuperLayer", null);
+		map.setFilter("SuperLayer",["==",x,y]);
+		map.setLayoutProperty('SuperLayer', 'visibility', 'visible');
+	};
+
+//This function clears all displayed information from the map.	
+function clearall()
+	{
+		//This Does Absolutely nothing
+		var monkey = document.getElementById("Monkey");
+		monkey.setAttribute("style", "visibility: hidden")
+		var cleve = document.getElementById("Browns");
+		cleve.setAttribute("style", "visibility: hidden")
+		//End of nothing
+		map.setLayoutProperty('SuperLayer', 'visibility', 'none');
+		map.setLayoutProperty('TeamsLayer', 'visibility', 'none');
+	}
+
+function Nothing()
+	{
+		if (lions == true)
+		{
+			var monkey = document.getElementById("Monkey");
+			monkey.setAttribute("style", "visibility: visible")
+		}
+		
+		if (browns == true)
+		{
+			var cleve = document.getElementById("Browns");
+			cleve.setAttribute("style", "visibility: visible")
+		}
+		
+	}
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiYm93bWExcnQiLCJhIjoiY2pmd3psbHVpMDFwMDMzbzA2NmU0cTc5OSJ9.lOvAxcl7PPKQHamWYY5faQ';
+
+//Creates the map variable
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/bowma1rt/cjgh5j6hj002r2so0llydw5vg',
+    zoom: 3.5,
+    center: [-95,40.0]
+});
+
+// turns on and loads the map, adding Json data while source is loading. 
+map.on('load', function () {
+    map.addSource('TeamsSource', {
+        type: 'geojson',
+        data: Teams
+    });
+	
+	map.addLayer({
+        'id': 'TeamsLayer',
+        'type': 'circle',
+        'source': 'TeamsSource',
+        'layout': {
+            'visibility': 'visible'
+        },
+        'paint': {
+            'circle-radius': 7,
+            'circle-color': 'rgba(0,58,115,1)'
+        },
+    });
+	
+    map.addSource('SuperSource', {
+        type: 'geojson',
+        data: SuperBowl
+    });
+	
+	map.addLayer({
+        'id': 'SuperLayer',
+        'type': 'circle',
+        'source': 'SuperSource',
+        'layout': {
+            'visibility': 'none'
+        },
+        'paint': {
+            'circle-radius': 10,
+            'circle-color': '#8B0000'
+        },
+    });
+	// add markers to map
+Teams.features.forEach(function(marker) {
+
+  // create a HTML element for each feature
+  var el = document.createElement('div');
+  el.className = 'marker';
+
+  // make a marker for each feature and add to the map
+  new mapboxgl.Marker(el)
+  .setLngLat(marker.geometry.coordinates)
+  .addTo(map);
+});
+
+});
+//disable controls
+map.scrollZoom.disable();
+map.dragPan.disable();
+map.doubleClickZoom.disable();
+
+map.on("click",'TeamsLayer',function(e){
+	console.log("it has been clicked");
+	//add popup here
+	 new mapboxgl.Popup()
+    .setLngLat(e.features[0].geometry.coordinates)
+    .setHTML("<img src='" +e.features[0].properties.IMAGE+"'height=100 width=100" + "<br>" + "<br>" + "<b>"+e.features[0].properties.City+"</b>" +" " + "<b>"+e.features[0].properties.TeamName+"</b>" +"<br>"+ "<br>" + "<b>Stadium: </b>" + e.features[0].properties.Stadium+ "<br>" + "<b>Capacity: </b>"+ e.features[0].properties.Stadium_Capacity + "<br>" + '<b>2017 Record:</b> ' + e.features[0].properties.Record + "<br>" + "<br>" + "<a href='" +e.features[0].properties.Web +"'>Team Site</a>")
+    .addTo(map);
+	
+map.on('mouseenter', 'TeamsLayer', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+	
+map.on('mouseleave', 'TeamsLayer', function () {
+        map.getCanvas().style.cursor = '';
+	});
+});
+
+map.on("click",'SuperLayer',function(e){
+	console.log("it has been clicked");
+	//add popup here
+	 new mapboxgl.Popup()
+    .setLngLat(e.features[0].geometry.coordinates)
+	.setHTML("<b>Super Bowl: </b>"+ e.features[0].properties.Year + "<br>"+ "<br>" +"<b>Date: </b>" + e.features[0].properties.Date + "<br>"+ "<br>" + "<b>"+e.features[0].properties.Team1+ "<b> VS </b>" + e.features[0].properties.Team2 + "<br>"+ "<br>" + "<b> Winner: </b>" +"<br>"+"<br>"+"<img src='" +e.features[0].properties.WIN+"'height=65 width=65" +"<br>"+ "<br>" + e.features[0].properties.Score + "<br>"+ "<br>" +"<b>Stadium: </b>" + e.features[0].properties.Std_Name)
+    .addTo(map);
+	
+map.on('mouseenter', 'SuperLayer', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+	
+map.on('mouseleave', 'SuperLayer', function () {
+        map.getCanvas().style.cursor = '';
+	});
+
+
+
+});
+
+</script>
+
+
+</body>
+
+
+
+</html>
