@@ -60,9 +60,3 @@ body { margin: 0; }
 	color: white;
 }
 
-.marker {
-  background-size: contain;
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-}

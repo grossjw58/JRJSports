@@ -3,7 +3,7 @@
 <head>
 	<title>Page Title</title>
 	<link href="MainStyle.css" rel="stylesheet" type="text/css"/>
-	<script src="p5.js"></script>
+	<script src="/Libs/map.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
@@ -28,27 +28,44 @@
 		</div>
 	</div>
 	<script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoiZ3Jvc3MxanciLCJhIjoiY2pkeXlhYjNxNGZjbTJ3cXB2ODg1OGJiYiJ9.KJO8FL7aEC-9SKfqGUdbjQ';
+		var map1 = new mapboxgl.Map({
+			container: 'mainMap',
+			style: 'mapbox://styles/mapbox/dark-v9',
+			zoom: 4,
+			center: [-98.5795,38],
+		});
 		var teams;
+		var zoom=parseFloat(map1.getZoom()*8).toFixed(0)+'px';
 		$.getJSON("Data/Nfl_Teams.json",function(json){
 			teams=json.features;
 			$.each(json.features,function(i,feature){
 				var el = document.createElement('div');
-				//el.className = 'marker';
 				el.style.backgroundImage = "url("+feature.properties.IMAGE+")";
-				el.style.backgroundSize = "contain";
-				//el.style.width="7%";
-				//el.style.height="7%";
+				el.className = "teamMarker";
+				el.style.backgroundSize= "contain";
+				el.style.width=zoom;
+				el.style.height=zoom;
 				el.style.backgroundRepeat="no-repeat";
-				//el.style.cursor= "pointer";
-				el.className = 'marker';
+				el.style.cursor="pointer";
 				// make a marker for each feature and add to the map
 				new mapboxgl.Marker(el)
 				.setLngLat(feature.geometry.coordinates)
 				.addTo(map1);
 			});
 		});
-		console.log(teams);
-		mapboxgl.accessToken = 'pk.eyJ1IjoiZ3Jvc3MxanciLCJhIjoiY2pkeXlhYjNxNGZjbTJ3cXB2ODg1OGJiYiJ9.KJO8FL7aEC-9SKfqGUdbjQ';
+		map1.on('zoom',function(){
+			document.getElementById("zoom").innerHTML="Zoom"+parseFloat(map1.getZoom()).toFixed(1); 
+			zoom=parseFloat(map1.getZoom()*8).toFixed(0)+'px';
+			console.log(zoom);
+			var markers = document.getElementsByClassName('teamMarker');
+			console.log(markers.length);
+			console.log(zoom);
+			for(i=0; i<markers.length; i++) {
+				markers[i].style.width=zoom;
+				markers[i].style.height=zoom;
+			}
+		});
 		//function to slide the panel
 		function TogglesidePanel(_direction){
 			if(_direction=="out"){
@@ -59,13 +76,6 @@
 				$("#mainMap").animate({width:"100%"},600)
 			}
 		};
-		var map1 = new mapboxgl.Map({
-			container: 'mainMap',
-			style: 'mapbox://styles/mapbox/dark-v9',
-			zoom: 4,
-			center: [-98.5795,38],
-		});
-
 	</script>
 </body>
 </html>
