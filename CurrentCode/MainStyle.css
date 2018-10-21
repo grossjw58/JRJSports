@@ -51,6 +51,20 @@ body { margin: 0; }
 	vertical-align: middle;
 	color: white;
 }
+#sidePanelHeader{
+}
+#sidePanelImage{
+}
+	
+#sidePanelRecord{
+}
+#sidePanelConference{
+}
+#sidePanelDivision{
+}
+#sidePanelLink{
+}
+
 #zoom{
 	height: auto;
 	width: 50%;
